@@ -5,6 +5,8 @@ import { db } from "@/lib/db";
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
+    // Use plural table names like users, sessions instead of user, session
+    // usePlural: true 
   }),
   emailAndPassword: {
     enabled: true,
@@ -16,4 +18,11 @@ export const auth = betterAuth({
     //   clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     // },
   },
+  // Better auth uses default id for primary key
+  // We disable the default id here and use uuid instead
+  advanced: {
+    database: {
+      generateId: false
+    }
+  }
 });

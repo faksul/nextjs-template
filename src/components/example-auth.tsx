@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,9 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { signOut, useSession } from "@/lib/auth/client";
+import { useSession } from "@/lib/auth/client";
 
 export function ExampleAuth() {
+  const router = useRouter();
   const { data: session, isPending } = useSession();
 
   if (isPending) {
@@ -33,7 +35,7 @@ export function ExampleAuth() {
               <p className="font-medium">{session.user?.email}</p>
             </div>
             <Button
-              onClick={() => signOut()}
+              onClick={() => router.push("/logout")}
               variant="outline"
               className="w-full"
             >
@@ -42,17 +44,14 @@ export function ExampleAuth() {
           </>
         ) : (
           <div className="space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Not authenticated. Configure Better Auth and sign in.
-            </p>
             <Button
               onClick={() => {
                 // Implement your sign in logic here
-                console.log("Sign in clicked");
+                router.push("/login");
               }}
               className="w-full"
             >
-              Sign In
+              Login
             </Button>
           </div>
         )}
